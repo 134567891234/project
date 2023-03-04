@@ -1,0 +1,74 @@
+package algorithm;
+
+public class PetersonAlgorithm {
+	  // Variables pour le processus 0 
+    static volatile boolean want0 = false; 
+    static volatile int turn = 0; 
+  
+    // Variables pour le processus 1 
+    static volatile boolean want1 = false; 
+  
+    public static void main(String[] args) { 
+  
+        // Thread pour le processus 0 
+        Thread t0 = new Thread(new Runnable() { 
+            @Override
+            public void run() { 
+  
+                // Définir want0 à vrai 
+                want0 = true; 
+  
+                // Vérifiez la valeur de want1 
+                while (want1 == true) { 
+  
+                    // Définir le tour à 1 
+                    turn = 1; 
+  
+                    // Vérifiez si le tour est toujours égal à 1 
+                    while (turn == 1) { 
+                    } 
+                } 
+  
+                // La section critique commence ici 
+                System.out.println("Process 0 dans la section critique"); 
+  
+                // La section critique finit ici 
+  
+                // Définir want0 à faux 
+                want0 = false; 
+            } 
+        }); 
+  
+        // Thread pour le processus 1 
+        Thread t1 = new Thread(new Runnable() { 
+            @Override
+            public void run() { 
+  
+                // Définir want1 à vrai 
+                want1 = true; 
+  
+                // Vérifiez la valeur de want0 
+                while (want0 == true) { 
+  
+                    // Définir le tour à 0 
+                    turn = 0; 
+  
+                    // Vérifiez si le tour est toujours égal à 0 
+                    while (turn == 0) { 
+                    } 
+                } 
+  
+                // La section critique commence ici 
+                System.out.println("Process 1 dans la section critique"); 
+  
+                // La section critique finit ici 
+  
+                // Définir want1 à faux 
+                want1 = false; 
+            } 
+        }); 
+  
+        t0.start(); 
+        t1.start(); 
+    } 
+}
